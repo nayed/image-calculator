@@ -5,6 +5,8 @@ import {NgFor} from 'angular2/common'
 @Component({
     selector: 'app',
     template: `
+        <h1>Total images: {{ imageStats().count }}</h1>
+        <h1>Total size: {{ imageStats().size }} bytes</h1>
         <div
           (dragover)="false"
           (dragend)="false"
@@ -47,6 +49,20 @@ export class App {
         })
 
         return false
+    }
+
+    imageStats() {
+        let sizes:Array<Number> = []
+        let totalSize:number = 0
+
+        this
+          .images
+          .forEach((image:File) => sizes.push(image.size))
+
+        sizes
+          .forEach((size:number) => totalSize += size)
+
+        return { size: totalSize, count: this.images.length }
     }
 }
 

@@ -30,10 +30,20 @@ webpackJsonp([1,2],[
 	        });
 	        return false;
 	    };
+	    App.prototype.imageStats = function () {
+	        var sizes = [];
+	        var totalSize = 0;
+	        this
+	            .images
+	            .forEach(function (image) { return sizes.push(image.size); });
+	        sizes
+	            .forEach(function (size) { return totalSize += size; });
+	        return { size: totalSize, count: this.images.length };
+	    };
 	    App = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-	            template: "\n        <div\n          (dragover)=\"false\"\n          (dragend)=\"false\"\n          (drop)=\"handleDrop($event)\"\n          style=\"height: 300px; border: 5px dotted #ccc\">\n            <p style=\"margin: 10px; text-align: center\">\n                <strong>Drop your images here</strong>\n            </p>\n        </div>\n\n        <div class=\"media\" *ngFor=\"#image of images\">\n            <div class=\"media-left\">\n                <a href=\"#\">\n                    <img class=\"media-object\" src=\"{{ image.path }}\" style=\"max-width: 200px\">\n                </a>\n            </div>\n            <div class=\"media-body\">\n                <h4 class=\"media-heading\">{{ image.name }}</h4>\n                <p>{{ image.size }} bytes</p>\n            </div>\n        </div>\n    "
+	            template: "\n        <h1>Total images: {{ imageStats().count }}</h1>\n        <h1>Total size: {{ imageStats().size }} bytes</h1>\n        <div\n          (dragover)=\"false\"\n          (dragend)=\"false\"\n          (drop)=\"handleDrop($event)\"\n          style=\"height: 300px; border: 5px dotted #ccc\">\n            <p style=\"margin: 10px; text-align: center\">\n                <strong>Drop your images here</strong>\n            </p>\n        </div>\n\n        <div class=\"media\" *ngFor=\"#image of images\">\n            <div class=\"media-left\">\n                <a href=\"#\">\n                    <img class=\"media-object\" src=\"{{ image.path }}\" style=\"max-width: 200px\">\n                </a>\n            </div>\n            <div class=\"media-body\">\n                <h4 class=\"media-heading\">{{ image.name }}</h4>\n                <p>{{ image.size }} bytes</p>\n            </div>\n        </div>\n    "
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], App);

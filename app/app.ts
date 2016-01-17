@@ -1,12 +1,24 @@
 import {bootstrap} from 'angular2/platform/browser'
-import {Component} from 'angular2/core'
+import {Component, Pipe, PipeTransform} from 'angular2/core'
 import {NgFor} from 'angular2/common'
+
+@Pipe({ name: 'byteFormat'})
+class ByteFormatPipe implements PipeTransform {
+    transform(bytes, args) {
+        if (bytes == 0) return '0 bytes'
+        var k = 1000
+        var sizes = ['Bytes', 'KB', 'MB', 'GB']
+        var i = Math.floor(Math.log(bytes) / Math.log(k))
+        return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i]
+    }
+}
 
 @Component({
     selector: 'app',
+    pipes: [ByteFormatPipe],
     template: `
         <h1>Total images: {{ imageStats().count }}</h1>
-        <h1>Total size: {{ imageStats().size }} bytes</h1>
+        <h1>Total size: {{ imageStats().size | byteFormat }}</h1>
         <div
           (dragover)="false"
           (dragend)="false"

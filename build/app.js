@@ -13,6 +13,23 @@ webpackJsonp([1,2],[
 	};
 	var browser_1 = __webpack_require__(402);
 	var core_1 = __webpack_require__(269);
+	var ByteFormatPipe = (function () {
+	    function ByteFormatPipe() {
+	    }
+	    ByteFormatPipe.prototype.transform = function (bytes, args) {
+	        if (bytes == 0)
+	            return '0 bytes';
+	        var k = 1000;
+	        var sizes = ['Bytes', 'KB', 'MB', 'GB'];
+	        var i = Math.floor(Math.log(bytes) / Math.log(k));
+	        return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+	    };
+	    ByteFormatPipe = __decorate([
+	        core_1.Pipe({ name: 'byteFormat' }), 
+	        __metadata('design:paramtypes', [])
+	    ], ByteFormatPipe);
+	    return ByteFormatPipe;
+	})();
 	var App = (function () {
 	    function App() {
 	        this.images = [];
@@ -43,7 +60,8 @@ webpackJsonp([1,2],[
 	    App = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-	            template: "\n        <h1>Total images: {{ imageStats().count }}</h1>\n        <h1>Total size: {{ imageStats().size }} bytes</h1>\n        <div\n          (dragover)=\"false\"\n          (dragend)=\"false\"\n          (drop)=\"handleDrop($event)\"\n          style=\"height: 300px; border: 5px dotted #ccc\">\n            <p style=\"margin: 10px; text-align: center\">\n                <strong>Drop your images here</strong>\n            </p>\n        </div>\n\n        <div class=\"media\" *ngFor=\"#image of images\">\n            <div class=\"media-left\">\n                <a href=\"#\">\n                    <img class=\"media-object\" src=\"{{ image.path }}\" style=\"max-width: 200px\">\n                </a>\n            </div>\n            <div class=\"media-body\">\n                <h4 class=\"media-heading\">{{ image.name }}</h4>\n                <p>{{ image.size }} bytes</p>\n            </div>\n        </div>\n    "
+	            pipes: [ByteFormatPipe],
+	            template: "\n        <h1>Total images: {{ imageStats().count }}</h1>\n        <h1>Total size: {{ imageStats().size | byteFormat }}</h1>\n        <div\n          (dragover)=\"false\"\n          (dragend)=\"false\"\n          (drop)=\"handleDrop($event)\"\n          style=\"height: 300px; border: 5px dotted #ccc\">\n            <p style=\"margin: 10px; text-align: center\">\n                <strong>Drop your images here</strong>\n            </p>\n        </div>\n\n        <div class=\"media\" *ngFor=\"#image of images\">\n            <div class=\"media-left\">\n                <a href=\"#\">\n                    <img class=\"media-object\" src=\"{{ image.path }}\" style=\"max-width: 200px\">\n                </a>\n            </div>\n            <div class=\"media-body\">\n                <h4 class=\"media-heading\">{{ image.name }}</h4>\n                <p>{{ image.size }} bytes</p>\n            </div>\n        </div>\n    "
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], App);

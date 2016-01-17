@@ -15,18 +15,25 @@ webpackJsonp([1,2],[
 	var core_1 = __webpack_require__(269);
 	var App = (function () {
 	    function App() {
+	        this.images = [];
 	    }
 	    App.prototype.handleDrop = function (e) {
 	        var files = e.dataTransfer.files;
+	        var self = this;
 	        Object.keys(files).forEach(function (key) {
-	            console.log(files[key]);
+	            if (files[key].type === "image/png" || files[key] === "image/jpeg") {
+	                self.images.push(files[key]);
+	            }
+	            else {
+	                alert("File must be a PNG or JPEG");
+	            }
 	        });
 	        return false;
 	    };
 	    App = __decorate([
 	        core_1.Component({
 	            selector: 'app',
-	            template: "\n        <div\n          (dragover)=\"false\"\n          (dragend)=\"false\"\n          (drop)=\"handleDrop($event)\"\n          style=\"height: 300px; border: 5px dotted #ccc\">\n            <p style=\"margin: 10px; text-align: center\">\n                <strong>Drop your images here</strong>\n            </p>\n        </div>\n    "
+	            template: "\n        <div\n          (dragover)=\"false\"\n          (dragend)=\"false\"\n          (drop)=\"handleDrop($event)\"\n          style=\"height: 300px; border: 5px dotted #ccc\">\n            <p style=\"margin: 10px; text-align: center\">\n                <strong>Drop your images here</strong>\n            </p>\n        </div>\n\n        <div class=\"media\" *ngFor=\"#image of images\">\n            <div class=\"media-left\">\n                <a href=\"#\">\n                    <img class=\"media-object\" src=\"{{ image.path }}\" style=\"max-width: 200px\">\n                </a>\n            </div>\n            <div class=\"media-body\">\n                <h4 class=\"media-heading\">{{ image.name }}</h4>\n                <p>{{ image.size }} bytes</p>\n            </div>\n        </div>\n    "
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], App);
